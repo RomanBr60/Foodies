@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node ./lib/www",
     "devstart": "nodemon ./lib/www",
-    "test": "./node_modules/.bin/jshint ./lib/*.js ./routes/*.js"
+    "test": "jshint ./lib/*.js ./routes/*.js"
   },
   "dependencies": {
     "async": "^2.6.3",
