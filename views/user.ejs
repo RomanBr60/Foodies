@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="he">
+	<head>
+		<meta property="og:title" content="Social Buttons for Bootstrap" />
+		<meta property="og:description" content="Social Sign-In Buttons made in pure CSS based on Bootstrap and Font Awesome!" />
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content="http://lipis.github.io/bootstrap-social/" />
+		<meta property="og:image" content="http://lipis.github.io/bootstrap-social/assets/img/bootstrap-social.png" />
+
+		<%- include('includes/head'); %>
+		
+		<link href="../stylesheets/main.css" rel="stylesheet" type="text/css" />
+		<link href="../stylesheets/bootstrap-social.css" rel="stylesheet" type="text/css" />
+		<style>
+		input[type='text'] { text-align: right; margin: 0; padding: 0 5px 0 0; color: black; }
+		.form-control.input-sm { margin: 0 ; padding: 0 10px 0 10px; }
+		.panel > *, .panel-body > * { width: 100%; }
+		</style>
+	</head>
+	<body ng-app='foodies' ng-controller='FoodiesRecCat'>
+		<%- include('includes/inc_script'); %>
+		<div class="full-container">
+			<div class="col-lg-offset-3 col-lg-6">
+				<div class="panel panel-primary" style="box-shadow: none;">
+				
+					<div class="panel-heading" style="padding-top: 1px; padding-bottom: 10px;">		
+						<h3>עריכת פרופיל משתמש <span class="glyphicon glyphicon-user"> </span></h3>
+					</div>
+					<div class="panel-body">
+						<form ng-submit="submit();" class="form-horizontal btn-block" role="form">
+							<div class="form-group">
+								<div class="col-lg-offset-2 col-lg-6" id="username">
+									<input class="form-control input-sm" ng-model="user.username" ng-value="user.username" placeholder="שם משתמש" title="שם משתמש" type="text" required autofocus/>
+								</div>
+								<label class="col-lg-4 control-label" for="username">שם משתמש <span class="text-danger">*</span></label>
+							</div>
+							
+							<div class="form-group">
+								<div class="col-lg-offset-2 col-lg-6" id="name">
+									<input class="form-control input-sm" ng-model="user.name" ng-value="user.name" placeholder="שם פרטי ושם משפחה" title="שם פרטי ושם משפחה" type="text" required />
+								</div>
+								<label class="col-lg-4 control-label" for="name">שם פרטי ושם משפחה <span class="text-danger">*</span></label>
+							</div>
+
+							<div class="form-group">
+								<div class="col-lg-offset-2 col-lg-6" id="gender">
+									<select class="form-control input-sm" ng-model="user.gender" >
+										<option value="">מין</option>
+										<option value="1">זכר</option>
+										<option value="2">נקבה</option>
+										<option value="3">אחר</option>
+									</select>
+								</div>
+								<label class="col-lg-4 control-label" for="gender">מין</label>
+							</div>
+
+							<div class="form-group">
+								<div class="col-lg-offset-2 col-lg-6" id="birthDayDate">
+									<input class="form-control input-sm" type="date" ng-model="user.birthDayDate" min="1920-01-01" title="תאריך לידה" /> 
+								</div>	
+								<label class="col-lg-4 control-label" for="birthDayDate">תאריך לידה לועזי</label>
+							</div>
+
+							<div class="form-group">
+								<div class="col-lg-offset-2 col-lg-6" id="email">
+									<input class="form-control input-sm" type="email" ng-model="user.email" placeholder="אימייל" title="אימייל" required /> 
+								</div>	
+								<label class="col-lg-4 control-label" for="email">אימייל <span class="text-danger">*</span></label>
+							</div>
+
+							<div class="form-group">
+								<div class="col-lg-offset-2 col-lg-6" id="password">
+									<input class="form-control input-sm" type="password" ng-model="user.password" placeholder="ססמה ריקה לשמירת הססמה הנוכחית" title="ססמה ריקה לשמירת הססמה הנוכחית" /> 
+								</div>	
+								<label class="col-lg-4 control-label" for="password">ססמה <span class="text-danger">*</span></label>
+							</div>
+							<div class="form-group">
+								<div class="col-lg-offset-2 col-lg-6" id="password2">
+									<input class="form-control input-sm" type="password" ng-model="user.password2" placeholder="הכנס ססמה פעם נוספת" title="ססמה ריקה לשמירת הססמה הנוכחית" /> 
+								</div>	
+								<label class="col-lg-4 control-label" for="password2">ססמה <span class="text-danger">*</span></label>
+							</div>
+							<div class="form-group">
+								<div class="col-md-offset-2 col-md-6 ">
+									<input type="button" class="btn btn-default pull-left" value="ביטול" ng-click="reset()">
+									<input type="submit" class="btn btn-primary" value="לשמור שינויים">
+								</div>
+							</div>
+
+
+
+						</form>
+					</div>
+
+				</div>
+
+			</div>
+		</div>
+		<script>
+			
+			var app = angular.module('foodies', []);
+			app.controller('FoodiesRecCat', ['$scope', '$http', '$compile', function($scope, $http, $compile) {
+				
+				$scope.user = <%- JSON.stringify(user) %>;
+				$scope.user.password = '';
+				$scope.user.password2 = '';
+				$scope.user.birthDayDate = new Date ($scope.user.birthDayDate);
+				
+				$scope.default_user = angular.copy ($scope.user);
+				
+				$scope.reset = function () {
+					$scope.user = angular.copy($scope.default_user);
+					//$scope.user.username = angular.copy($scope.default_user.username);
+					console.log ($scope.user);
+				}
+				
+				$scope.submit = function () {
+					
+					if ($scope.user.password2.trim() !== $scope.user.password.trim()) {
+						alert ("הססמאות אינן תואמות");
+						return false;
+					}
+			
+					alert ($scope.user.birthDayDate);
+					
+					$http.post('/changeuser', $scope.user)
+					.then(function(data) {
+						console.log ($scope.user);
+						alert (data.data);
+						
+					}).catch(function(data) {
+						console.log ($scope.user);
+						alert (data.data);
+						
+					})
+						
+					return false;
+				
+
+				}
+
+			}]);
+
+
+
+		</script>
+
+	</body>
+</html>	

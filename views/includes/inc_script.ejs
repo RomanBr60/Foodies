@@ -1,0 +1,85 @@
+		<script src="https://use.fontawesome.com/7f1d70ce9d.js" type="application/javascript"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js" type="application/javascript"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular.js" type="application/javascript"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" type="application/javascript"></script>
+		<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js" type="application/javascript"></script>
+		<script src="./javascripts/main.js"></script>
+
+		<nav class="navbar navbar-inverse" role="navigation" data-toggle="tooltip" title = "תפריט ניווט">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="javascript:void(0);">
+					</a>
+				</div>
+				<div class="collapse navbar-collapse" id="myNavbar" style="margin-right: 25%;">
+					<ul class="nav navbar-nav navbar-right">
+						<li class="dropdown" title="כלי מנהל" role="navigation">
+							<a data-toggle="tooltip" title = "דף הבית" id = "Home" name = "Home" href="index.html">
+							 דף-הבית <span class="glyphicon glyphicon-home"/>
+							</a>
+						</li>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<li class="dropdown" title="כלי מנהל" role="navigation">
+						<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" href="javascript:void(0);">
+							כלי מנהל <span class="caret"></span></a>				
+							<ul class="dropdown-menu">
+								<li class="dropdown-item"><a href="/user_activation" tabindex="-1" data-toggle="tooltip" title="אישור משתמש">אישור משתמש</a></li>
+								<li class="dropdown-item"><a href="/reccategories" tabindex="-1" data-toggle="tooltip" title="קטגוריות מתכונים">קטגוריות מתכונים</a></li>
+							</ul>
+						</li>
+						
+						<li class="dropdown" title="כלי משתמש" role="navigation">
+						<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" href="javascript:void(0);">
+						כלי משתמש <span class="caret"></span></a>				
+							<ul class="dropdown-menu">
+							<li class="dropdown-item"><a href="/user" tabindex="-1" data-toggle="tooltip" title="שינוי פרטי משתמש">שינוי פרטי משתמש</a></li>
+							</ul>
+						</li>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<li>
+							<a data-toggle="tooltip" title = "אודות" id = "About" name = "About" href="/about">
+								אודות <span class="glyphicon glyphicon-info-sign"/>
+							</a>
+						</li>
+					</ul>
+					<% if ((typeof user !== 'undefined') && showuser) { %>
+					<ul class="nav navbar-nav navbar-left">
+						<li class="dropdown" title="<%- user.name %>" role="navigation">
+						<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" href="javascript:void(0);">
+							<%- user.name %> <span class="caret"></span></a>				
+							<ul class="dropdown-menu" style = "margin-left: 0;">
+							<li class="dropdown-item"><a onclick="logout();" tabindex="-1" data-toggle="tooltip" title="יציאה">יציאה</a></li>
+							</ul>
+						</li>
+					</ul>
+					<% } else if (showuser) { %>
+					<ul class="nav navbar-nav navbar-left">
+						<li>
+							<a data-toggle="tooltip" title = "כניסה" href="/login">כניסה <span class="glyphicon glyphicon-log-in"></span></a>
+						</li>
+						<li>
+							<a data-toggle="tooltip" title = "הרשמה" href="/signup">הרשמה <span class="glyphicon glyphicon-user"></span></a>
+						</li>
+					</ul>
+					<% } %>
+				</div>
+			</div>
+		</nav>
+		<script>
+		function logout () {
+			$.post('/logout')
+			.then(function(data) {
+			}).catch(function(data) {
+				alert (data.data);
+			})
+			swal("Hello world!");
+		}
+		</script>

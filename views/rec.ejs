@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="he">
+	<head>
+		<meta property="og:title" content="Social Buttons for Bootstrap" />
+		<meta property="og:description" content="Social Sign-In Buttons made in pure CSS based on Bootstrap and Font Awesome!" />
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content="http://lipis.github.io/bootstrap-social/" />
+		<meta property="og:image" content="http://lipis.github.io/bootstrap-social/assets/img/bootstrap-social.png" />
+
+		<%- include('includes/head'); %>
+	
+		<link href="./stylesheets/main.css" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.css" />
+
+		<style>
+		input[type='text'] { text-align: right; margin: 0; padding: 0 5px 0 0; color: black; }
+		.form-control.input-sm { margin: 0 ; padding: 0 10px 0 10px; }
+		.panel > *, .panel-body > * { width: 100%; }		
+
+		.bootstrap-tagsinput {
+			width: 100%;
+			max-height: inherit;
+		}
+		
+		.bootstrap-tagsinput > input {
+			text-align: right;
+		}
+
+		</style>
+
+		<!--<script src="https://cdn.ckeditor.com/ckeditor5/12.1.0/decoupled-document/ckeditor.js"></script>-->
+		<!--<script src="https://cdn.ckeditor.com/ckeditor5/12.2.0/classic/ckeditor.js"></script>-->
+		<script src="https://cdn.ckeditor.com/4.11.4/full-all/ckeditor.js"></script>
+	</head>
+	<body>
+		<%- include('includes/inc_script'); %>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.js" type="application/javascript"></script>
+		
+ 		<div class="container">
+					
+			<div class="form-group">
+				<div class="row">
+					<div class="col-md-10 col-md-offset-1">	
+						<div class="input-group">
+							<input type="text" class="form-control" id="title">
+							<label class="label-control input-group-addon" for="title">:שם המתכון</label>
+						</div>	
+					</div>
+				</div>
+
+				<br/>
+
+				<div class="row">
+					<div class="col-md-10 col-md-offset-1">	
+						<div name="editor1" id="editor1"></div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div id="txt"></div>
+				</div>
+				
+			</div>
+			<div class="form-group">
+				<div class="row">
+					<br/>
+					<div class="col-md-10 col-md-offset-1">	
+						<div class="input-group">
+							<input type="text" class="form-control input-tags" placeholder="רשום בבקשה האשטאגים" id="hashTags" name="hashTags" data-role="tagsinput"/>
+							<spanl class="input-group-addon"> :תגיות</span>
+						</div>	
+					</div>
+	
+				</div>
+			</div>
+		
+		</div>
+		
+		
+		<script>
+			
+			var editor = CKEDITOR.replace( 'editor1' );
+			editor.config.height = "150px";
+			editor.on('change', function(evt) {
+				$('#txt').html(evt.editor.getData());
+			});	
+		</script>
+
+	</body>
+</html>	

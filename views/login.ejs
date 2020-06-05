@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="he">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta property="og:title" content="Social Buttons for Bootstrap" />
+		<meta property="og:description" content="Social Sign-In Buttons made in pure CSS based on Bootstrap and Font Awesome!" />
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content="http://lipis.github.io/bootstrap-social/" />
+		<meta property="og:image" content="http://lipis.github.io/bootstrap-social/assets/img/bootstrap-social.png" />
+
+		<%- include('includes/head'); %>
+		<link href="../stylesheets/main.css" rel="stylesheet" type="text/css" />
+		<link href="../stylesheets/bootstrap-social.css" rel="stylesheet" type="text/css" />
+
+		<style>
+		option { text-align-right; direction: rtl; }
+		input[type='text'] { text-align: right; margin: 0; padding: 0 5px 0 0; color: black; }
+		.form-control.input-sm { margin: 0 ; padding: 0 5px 0 0; text-align: right; }
+		.input-group.has-feedback { margin-bottom: 5px; text-align: right; }		
+		</style>
+	</head>
+	<body ng-app='foodies' ng-controller='FoodiesRecCat'>
+		<%- include('includes/inc_script'); %>
+		<div class="container">
+			<div class="col-md-4 col-md-offset-4">					
+				<div class="panel panel-danger" style="margin-top: 30px;">
+					<div class="panel-heading">
+						<h3 class="panel-title text-center"><strong>להיכנס עם פרופיל הפודיז שלך</strong></h3>
+					</div>
+					<div class="panel-body" style="margin-top: -15px;">
+						<!--<form method="post" ng-submit="submit();" class="form-horizontal" role="form">-->
+						<form ng-submit="submit();" class="form-horizontal" role="form">
+							<label class="control-label" for="username">שם משתמש או אימייל</label>
+							<div class="input-group has-feedback" id="usernameDiv">
+							    <span class="sr-only" aria-hidden="true" id="usernameSign"></span>
+								<input id="username" type="text" class="form-control input-sm" placeholder="הכנס שם משתמש או אימייל" ng-model = "username" title="שם משתמש או אימייל" required>
+								<span class="input-group-addon" title="שם משתמש או אימייל"><i class="glyphicon glyphicon-user"></i></span>
+							</div>
+
+							<label class="control-label" for="password">ססמת כניסה</label>
+							<div class="input-group has-feedback" id="passwordDiv">
+							    <span class="sr-only" aria-hidden="true" id="passwordSign"></span>
+								<input id="password" type="password" class="form-control input-sm" placeholder="הכנס/הכניסי ססמת כניסה" ng-model = "password" title="ססמת כניסה" required>
+								<span class="input-group-addon" title="password"><i class="glyphicon glyphicon-lock"></i></span>
+							</div>
+							
+							<button type="submit" class="btn btn-primary btn-block" style="margin-bottom:-2px; margin-top:10px;">להיכנס לחשבון הפודיז שלך</button>
+							<div class = "input-group btn-block">
+								<div class="pull-right checkbox-inline" style="margin-right: -7px;">
+								זכור אותי&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="remember" type="checkbox" ng-model="remember" >
+								</div>
+								<div class ="pull-left checkbox-inline" style="margin-left: -20px;"><a href="javascript:void(0);">?שכחת את הססמה</a></div>
+							</div>
+						</form>
+					</div>
+					
+					<div class = "panel-footer" style="margin-top: -10px;">
+						<label class="control-label">או דרך</label>
+						<div class = "text-center social-buttons">
+							<a class="btn btn-social-icon btn-sm btn-facebook" title = "Login with facebook"><i class="fa fa-facebook"></i></a>
+							<a class="btn btn-social-icon btn-sm btn-twitter" title = "Login with twitter"><i class="fa fa-twitter"></i></a>
+							<a class="btn btn-social-icon btn-sm btn-instagram" title = "Login with instagram"><i class="fa fa-instagram"></i></a>
+							<a class="btn btn-social-icon btn-sm btn-linkedin" title = "Login with linkedin"><i class="fa fa-linkedin"></i></a>
+							<a class="btn btn-social-icon btn-sm btn-github" title = "Login with github"><i class="fa fa-github"></i></a>
+							<a class="btn btn-social-icon btn-sm btn-google" title = "Login with google"><i class="fa fa-google"></i></a>
+							<a class="btn btn-social-icon btn-sm btn-microsoft" title = "Login with facebook"><i class="fa fa-windows"></i></a>
+						</div>
+						
+						<div style="margin: 7px 0 0 0;">
+							<label class="control-label">
+								אין לך חשבון? 
+								<a href="signup">להירשם כאן בחינם</a>
+							</label>
+						</div> 
+					</div>
+					
+				</div>
+				
+			</div>
+			
+		</div>
+		<script>
+			var app = angular.module('foodies', []);
+			app.controller('FoodiesRecCat', ['$scope', '$http', '$compile', '$location', '$window', function($scope, $http, $compile, $location, $window) {
+			
+				$scope.submit = function () {
+					var send_data = { 
+						username: 	$scope.username, 
+						password: 	$scope.password,
+						save_login: $scope.remember
+					}
+			
+					$http.post('/login', send_data)
+					.then(function(data) {
+						console.log (data.data);						
+						//alert (data.data.message);
+						//if (data.data.auth) $window.location.href = '/';
+					}).catch(function(data) {
+						console.log (data.data);
+					})
+				}
+			
+			}]);
+		</script>
+	</body>
+</html>

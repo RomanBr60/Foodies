@@ -1,0 +1,270 @@
+﻿<!DOCTYPE html>`
+<html lang="he">
+	<head>
+		<meta property="og:title" content="Social Buttons for Bootstrap" />
+		<meta property="og:description" content="Social Sign-In Buttons made in pure CSS based on Bootstrap and Font Awesome!" />
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content="http://lipis.github.io/bootstrap-social/" />
+		<meta property="og:image" content="http://lipis.github.io/bootstrap-social/assets/img/bootstrap-social.png" />
+
+		<%- include('includes/head'); %>
+		
+		<link href="../stylesheets/main.css" rel="stylesheet" type="text/css" />
+		<style>
+		input[type='text'] { text-align: right; margin: 0; padding: 0 5px 0 0; color: black; }
+		.form-control.input-sm { margin: 0 ; padding: 0 5px 0 0; }
+		.input-group.has-feedback { margin-bottom: 5px; }
+		textarea { margin: 5px 5px 5px 0; padding: 2px 5px 0 5px; text-align: right; direction: rtl; }
+		
+		.blue {
+			color: blue;
+		}
+		</style>
+	</head>
+	<body ng-app='foodies' ng-controller='FoodiesRecCat'>
+		<%- include('includes/inc_script'); %>
+		<div class="container">
+			<h1 class="big-title">תפריט מתכונים</h1>
+			<form novalidate class="form-horizontal col-md-6 col-md-offset-3"  action="javascript:void(0)" method="post" role="form" style="margin-bottom: 25px;">				
+				<input type="hidden" name="cat_id" ng-model="cat_id"/>
+				<ol class="panel list-group navbar-center" id="menu_rec" name = "menu_rec">
+					<li class = "panel-heading list-group-item active text-center" id = "rec_num">קטגוריות מתכונים</li>
+
+					<li ng-repeat="val in records" class="panel-body list-group-item text-right" title="{{ val.name }}" id="cat{{val.id}}" >
+						<span ng-hide="show{{val.id}}" class="badge navbar-left" title="{{val.v}}">{{val.v}}</span>
+						
+						<% if ((typeof user !== 'undefined') && (user.username != '') && (user.usertype == 3)) { %>
+						<div ng-show="show{{val.id}}">
+						<button class ="btn-xs" type="button" ng-click="redo_change(val.id);" title = "לבטל שינוי">                   
+							<img src="../images/buttons/delete-sign.png" />
+						</button>
+						<button class ="btn-xs" type="button" ng-click="submit_change(val.id);" title="להגיש שינוי">                   
+							<img src="../images/buttons/checkmark.png"  />
+						</button>
+						<input type="text" id="input{{val.id}}" />
+						</div>
+						<% } %>
+						
+
+						
+						<div ng-hide="show{{val.id}}">
+						<span class="text-right">{{val.name}}</span>
+						<% if ((typeof user != 'undefined') && (user.username != '') && (user.usertype == 3)) { %>
+						<button class="btn-xs"  type="button" ng-click="submit_edition(val.id);" title="לערוך">                   
+							<img src="../images/buttons/edit.png" />
+						</button>
+						<button class="btn-xs"  type="button" ng-click="submit_deletion(val.id);" title="למחוק">                   
+						  <img src="../images/buttons/trash.png" />
+						</button>
+						<% } %>
+						<span ><i ng-click="desc_visible(val.id);" class="glyphicon" ng-class="{'glyphicon-chevron-left': !enabled{{val.id}}, 'glyphicon-chevron-down': enabled{{val.id}} };" id = "chveron{{val.id}}" ></i></span>
+						</div>
+						<% if ((typeof user !== 'undefined') && (user.username != '') && (user.usertype == 3)) { %>
+						<label ng-show="show{{val.id}}" class="control-label">:תיאור קצר של הקטגוריה</label>
+						<textarea class="btn-block" ng-show="showDesc{{val.id}}" id="description{{val.id}}" rows="10" ng-disabled="!disabled{{val.id}}">{{val.description}}</textarea>
+						<% } %>
+					</li>
+					
+					<li class = "panel-heading list-group-item text-center">
+					User exist: <%= (typeof user !== 'undefined') %>
+					</li>
+					
+					<% if ((typeof user !== 'undefined') && (user.username != '') && (user.usertype == 3)) { %>
+					<li class="panel-footer list-group-item text-right">
+						<div  ng-hide="showAddition">
+							<button type="button" class="btn btn-primary btn-block" ng-click="submit_addition();">
+							להוסיף סוגי מתכונים
+							</button>
+						</div>
+						<div ng-show="showAddition">
+							<div class="input-group has-feedback">
+								<span class="sr-only" aria-hidden="false"></span>
+								<input type="text" class="form-control input-sm" placeholder="קוד" title="קוד" id="idInputBox" ng-model="newID" />
+								<span class="input-group-addon" title="קוד"><i class="glyphicon glyphicon-user"></i></span>
+							</div>
+							<div class="input-group has-feedback" >
+								<span class="sr-only" aria-hidden="false"></span>
+								<input type="text" class="form-control input-sm" placeholder="ערך" title="ערך" ng-model="newCat" />
+								<span class="input-group-addon" title="ערך"><i class="glyphicon glyphicon-lock"></i></span>
+							</div>
+							<label class="control-label">:תיאור קצר של הקטגוריה</label>
+							<textarea class="btn-block" rows="10" ng-model="textDescription"></textarea>
+							<div class="text-center">
+								<button class ="btn-xs btn-icon" type="button" ng-click="redo_change1();" title = "לבטל הוספה">                   
+									<img  src="../images/buttons/delete-sign.png" alt="לבטל הוספה" />
+								</button>
+								<button class ="btn-xs btn-icon" type="button" ng-click="submit_addition();" title="להגיש הוספה">                   
+									<img  src="../images/buttons/checkmark.png"  alt="להגיש הוספה" />
+								</button>
+							</div>
+						</div>
+					</li>
+					<% } %>
+				</ol>
+			</form>
+		</div>
+		<script>
+			
+			$(document).ready(function(){
+				//$("#chevron2").addClass('blue');
+			});
+			
+			var app = angular.module('foodies', []);
+			app.controller('FoodiesRecCat', ['$scope', '$http', '$compile', function($scope, $http, $compile) {		  
+			  $scope.v = 0;
+			  $scope.records = [];
+			  $scope.dsc = [];
+			  <% for(let recCat of recCats) {%>
+					$scope.dsc[<%= recCat.id %>] = decodeURI("<%= recCat.description %>");
+					$scope.records.push({ v: ($scope.v++), id: "<%= recCat.id %>", name: "<%= recCat.name %>", 
+				description: decodeURI("<%= recCat.description %>") });
+			  <% } %>
+				
+			  $scope.submit_edition = function (id) {
+					$scope["show"+id] = true;
+					$('#input'+id).val($scope.records.find(item => item.id == id).name);
+					
+					$scope['showDesc' + id] = true;
+					$scope['disabled' + id] = true;
+			  }
+
+			  $scope.submit_change = function (id) {
+				var $text = $('#input'+id).val().trim();
+				var $dsc  = $('#description'+id).val().trim();
+							
+				var send_data = {}
+				send_data.id = id;
+				send_data.name = '';
+				send_data.description = '';
+				
+				if ($scope.records.find(item => item.id == id).name !== $text) send_data.name = $text;
+				
+				if ($text.trim().length >= 30) {
+					alert("תבחר בבקשה ערך קצר מ30 תוים");
+					return;
+				}
+
+				if ($scope.records.find(item => item.id == id).description !== $dsc.trim()) send_data.description = decodeURI($dsc);
+			
+				if (send_data.name == '' && send_data.description == '') {
+					alert ("כדי להגיש את השינוי, שנו בבקשה את הערך או את התיאור של הקטגוריה");
+					return;
+				}
+				
+				$http.put('/EDITTYPE', send_data).then(function(data) {
+
+					if (data.data.result) {
+						$scope.records.find(item => item.id == id).name = $text;
+						$scope.dsc[id] = $dsc;
+						alert($scope.dsc[id]);
+						setTimeout(function(){ alert ("הוחלף"); }, 1);
+					}
+					else alert("אירעה שגיאה בעת שינוי הערך");
+					
+				}).catch(function(data) {
+					alert ("השם החדש קיים");
+				})
+				
+			  }	
+			  
+			  $scope.submit_addition = function () { 
+				var $h = $(".panel-footer")[0].scrollHeight * 10;
+				$("html, body").animate({ scrollTop: $h }, 'fast');
+				$('#idInputBox').focus();
+				
+				if (!$scope.showAddition) {
+					$scope.showAddition = true;
+					$scope.newCat = '';
+					$scope.newID = '';
+					$scope.textDescription = '';
+				}
+
+				else {
+					
+					if ($scope.newID.trim().length == 0 || $scope.newCat.trim().length == 0) {
+						alert ("לא הוכנסו ערכים");
+						return
+					}
+					
+					if ($scope.newCat.trim().length >= 30) {
+						alert("תבחר בבקשה ערך קצר מ30 תוים");
+						return;
+					}
+
+					if (!parseInt($scope.newID)) {
+						alert("הזיהוי חייב להכיל מספרים בלבד");
+						return;
+					}
+					
+					var send_data = { id: $scope.newID, name: $scope.newCat, description: decodeURI($scope.textDescription) };
+					$http.post('/ADDTYPE', send_data)
+					.then(function(data) {
+
+						if (data.data.result) {
+							send_data.v = $scope.v++;
+							$scope.records.push (send_data);
+						    $scope.showAddition = false;
+							setTimeout(function(){ alert ("הערך החדש נוסף"); }, 1);
+						}
+						else alert("לא ניתן להוסיף את הערך החדש");
+						
+					}).catch(function(data) {
+						if (data.data) alert ("השם או הזיהוי קיימים");
+					})
+					
+				}
+				
+				
+			  }
+			  
+			  $scope.submit_deletion = function (id) { 
+					var $text = $scope.records.find(item => item.id == id).name
+					var answer = confirm("למחוק " + $text + "?");
+					if (answer) {
+						var send_data = { id: id, name: $text };
+						$http.delete('/DELETETYPE/' + id + "/" + send_data.name)
+						.then(function(data) {
+							if (data.data.result) {
+								delete_element (id, $scope);
+								setTimeout(function(){ alert ( "נמחק הערך " + send_data.name); }, 1);
+							}
+							else alert("לא ניתן למחוק את הערך");
+							
+						}, function(data) {
+							alert (" שגיאה במחיקת הערך" + send_data.name);	
+						});
+
+					}
+
+					else alert("הערך לא נמחק"); 
+			  }
+			  
+			  $scope.redo_change = function (id) {
+				$scope["show"+id] = false;
+				$('#description'+id).val($scope.dsc[id]);
+				
+				$scope['showDesc'+id] = false;
+				$scope['enabled'+id] = false;
+				$scope['disabled'+id] = false;				
+			  }
+
+			  $scope.redo_change1 = function () {
+			    $scope.showAddition = false;
+			  }
+
+			  $scope.desc_visible = function (id)	{
+				$scope['enabled'+id] = !$scope['enabled'+id];
+				$scope['showDesc' + id] = !$scope['showDesc' + id];
+			  }
+
+			}]);
+			
+			function delete_element(id, $scope) {
+				$scope.records = $scope.records.filter(function(item) {
+					return item.id != id;
+				}); 
+			}
+	
+		</script>
+	</body>
+</html>

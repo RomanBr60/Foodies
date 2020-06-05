@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="he">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta property="og:title" content="Social Buttons for Bootstrap" />
+		<meta property="og:description" content="Social Sign-In Buttons made in pure CSS based on Bootstrap and Font Awesome!" />
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content="http://lipis.github.io/bootstrap-social/" />
+		<meta property="og:image" content="http://lipis.github.io/bootstrap-social/assets/img/bootstrap-social.png" />
+
+		<%- include('includes/head'); %>
+		<link href="../stylesheets/main.css" rel="stylesheet" type="text/css" />
+		<link href="../stylesheets/bootstrap-social.css" rel="stylesheet" type="text/css" />
+
+		<style>
+		option { text-align: right; direction: rtl; }
+		input[type='text'] { text-align: right; margin: 0; padding: 50px; color: red; }
+		.form-control.input-sm { margin: 0 ; padding: 0 5px 0 0; text-align: right; }
+		.input-group.has-feedback { margin-bottom: 5px; text-align: right; }		
+		</style>
+	</head>
+	<body ng-app='foodies' ng-controller='FoodiesRecCat'>
+		<%- include('includes/inc_script'); %>
+		<div class="full-container">
+			
+			<div class="col-md-3 col-md-offset-4">
+				<div class="panel panel-danger">
+
+					<div class="panel-heading">
+						<h3 class="panel-title text-center"><strong>יצירת חשבון חדש</strong></h3>
+						<small>.תנסו. זה בחינם</small>
+					</div>
+					<div class="panel-body"  style = "margin-top: -15px;"> 
+						<form ng-submit="submit();" class="form-horizontal" role="form">
+							<!--<div class="alert alert-danger" id = "password_msg" name = "password_msg">
+								<span class="glyphicon glyphicon-alert" aria-hidden="false"></span>
+								<span class="sr-only">Error:</span>
+								<button type="button" class="close" data-dismiss="alert" aria-label="Close" id = "closeAlertBtn">
+									<span aria-hidden="true">&times;</span>
+								</button>
+								<span id = "msg" name = "msg">User already exists</span>
+							</div>-->
+
+							<label class="control-label" for="username">שם משתמש <span class="text-danger">*</span></label>
+							<div class="input-group has-feedback" id="usernameDiv">
+							    <span class="sr-only" aria-hidden="true" id="usernameSign"></span>
+								<input class="form-control input-sm" id="username" ng-model="username" placeholder="שם משתמש" title="שם משתמש" type="text" required ng-true-value="'YES'" ng-false-value="'NO'" autofocus />
+								<span class="input-group-addon" title="שם משתמש"><i class="fa fa-users fa"></i></span>
+							</div>
+							
+							<label class="control-label" for="name">שם פרטי ושם משפחה <span class="text-danger">*</span></label>
+							<div class="input-group has-feedback" id="firstnameDiv">
+							    <span class="sr-only" aria-hidden="true" id="firstnameSign"></span>
+								<input class="form-control input-sm" id="name" ng-model="name" placeholder="שם פרטי ושם משפחה" title = "שם פרטי ושם משפחה" type="text" required />
+								<span class="input-group-addon" title = "שם פרטי ושם משפחה"><i class="glyphicon glyphicon-user"></i></span>
+							</div>
+							
+							<label class="control-label" for="birthDayDate">תאריך לידה לועזי</label>
+							<div class="input-group has-feedback" id="birthDayDateDiv">
+							    <span class="sr-only" aria-hidden="true" id="birthDayDateSign"></span>
+								<input class="form-control input-sm" type="date" ng-model="birthDayDate" min="1920-01-01"
+								id="birthDayDate" title="תאריך לידה" />
+								<span class="input-group-addon" title="תאריך לידה"><i class="glyphicon glyphicon-time"></i></span>
+							</div>
+							
+							<label class="control-label" for="gender">מין</label>
+							<div class="input-group btn-primary btn-block" id="gender">
+								<select class="form-control input-sm" ng-model="gender" >
+									<option value="">מין</option>
+									<option value="1">זכר</option>
+									<option value="2">נקבה</option>
+									<option value="3">אחר</option>
+								</select>
+							</div>
+							
+							<label class="control-label" for="USERTYPE">סוג משתמש <span class="text-danger">*</span></label>
+							<div class="input-group btn-primary btn-block">
+								<select class="form-control input-sm" id = "USERTYPE" ng-model="usertype" required>
+									<option value="" disabled>טיפוס</option>
+									<option value="1" ng-selected="true;">משתמש רגיל</option>
+									<option value="2">מנהל תוכן</option>
+									<option value="3">מנהל אתר</option>
+								</select>
+							</div>	
+							<label class="control-label" for="email">אימייל <span class="text-danger">*</span></label>
+							<div class="input-group has-feedback" id="emailDiv">
+							    <span class="sr-only" aria-hidden="true" id="emailSign"></span>
+								<input class="form-control input-sm" id="email" ng-model="email" placeholder="האימייל שלך" title="האימייל שלך" type="email" required />
+								<span class="input-group-addon" title="האימייל שלך"><i class="glyphicon glyphicon-envelope"></i></span>
+								</div>
+							
+							<label class="control-label" for="password">ססמה חדשה <span class="text-danger">*</span></label>
+							<div class="input-group has-feedback" id="passwordDiv">
+							    <span class="sr-only" aria-hidden="true" id="passowrdSign"></span>
+								<input class="form-control input-sm" id="password" ng-model="password" placeholder="ססמה חדשה" title="ססמה חדשה" type="password" required />
+								<span class="input-group-addon" title="ססמה חדשה"><i class="fa fa-lock fa-lg"></i></span>
+							</div>
+
+							<label class="control-label" for="password2">הכנס מחדש את הססמה <span class="text-danger">*</span></label>
+							<div class="input-group has-feedback" id="password2Div">
+							    <span class="sr-only" aria-hidden="true" id="password2Sign"></span>
+								<input class="form-control input-sm" id="password2" ng-model="password2" placeholder="הכנס מחדש את הססמה" title="הכנס מחדש את הססמה" type="password" required />
+								<span class="input-group-addon" title="הכנס מחדש את הססמה"><i class="glyphicon glyphicon-lock"></i></span>
+							</div>
+								
+							<div class="checkbox btn-block" style="margin: -5px 0 15px 0;">
+								<label class="checkbox-inline pull-right" style="margin-right: -7px">
+									אני מסכים&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" ng-model="checked">
+								</label>
+								<label class="pull-left checkbox-inline" style="margin-left: 15px;">
+								 <a href="javascript:void(0);">תנאי שימוש</a> ו<a href="javascript:void(0);">תנאי פרטיות</a>
+								</label>
+							</div>
+							<button type="submit" style="margin: 5px 0 -5px 0;" class="btn btn-primary btn-block">להרשם</button>
+
+						</form>
+					</div>
+					<div class = "panel-footer">
+						<div class="form-group">
+							<div style="font-size: 12px; margin-bottom:-15px; margin-top: 0px;">
+								האם קיים ברשותך חשבון פעיל?
+								<a href="login">לחץ כאן לכניסה לחשבון שלך</a>
+							</div>
+						</div> 
+					</div>
+
+				</div>
+			</div>		
+			<!--<div class="col-sm-4">
+				<div class="thumbnail card well-sm">
+					<div class="caption text-center">
+						<h3>Choose your prifile picture</h3>
+					</div>
+
+					<div class="imgcontainer text-center">
+						<a target="_blank" href="#" id = "link">
+							<img src="USER_IMG/img_avatar0.png" alt="Avatar" id = "avatar" class="avatar img-fluid img-thumbnail">
+						</a>
+					</div>
+					<div class="btn-block">
+						<select onchange = "link.href = avatar.src = 'USER_IMG/' + this.options[this.selectedIndex].value;" 
+						class="form-control input-sm btn-block">
+							<option value = "img_avatar0.png" select>Me</option>
+							<option value = "user2.png">Male</option>
+							<option value = "avatar2.png">Male</option>
+							<option value = "img_avatar1.png">Male</option>
+							<option value = "img_avatar.png">Male</option>
+							<option value = "man.jpg">Male</option>
+							<option value = "img_avatar2.png">Female</option>
+							<option value = "avtar.png">Female</option>
+							<option value = "avatar5.png">Female</option>
+							<option value = "avatar6.png">Female</option>
+						</select>
+					</div>
+				</div>
+			</div>-->
+		
+		</div>
+		<script>
+			var app = angular.module('foodies', []);
+			app.controller('FoodiesRecCat', ['$scope', '$http', '$compile', function($scope, $http, $compile) {
+					
+				$scope.submit = function () {
+					if ($scope.password2 != $scope.password) {
+						alert ("הססמאות אינן תואמות");
+						return false;
+					}
+
+					if (!$scope.checked) {
+						alert ("אין אפשרות להירשם לאתר בלי אישור קבלת תנאי השימוש");
+						return false;
+					}
+
+					/*var $d;
+					if ($scope.birthDayDate) {
+						var $d = new Date($scope.birthDayDate);
+						//$scope.birthDayDate.split('T')[0];
+						$d = new Date ($d.getFullYear(), $d.getMonth(), $d.getDate());
+					}*/
+			
+					var send_data = { 
+						username: $scope.username, 
+						name: $scope.name, 
+						email: $scope.email, 
+						birthDayDate: $scope.birthDayDate,
+						gender: $scope.gender,
+						usertype: parseInt($scope.usertype),
+						password: $scope.password 
+					}
+
+					$http.post('/SETUSER', send_data)
+					.then(function(data) {
+
+						alert (data.data);
+						
+					}).catch(function(data) {
+						
+						alert (data.data);
+						
+					})
+						
+					return false;
+				
+
+				}
+
+			}]);
+
+
+
+		</script>
+	</body>
+</html>

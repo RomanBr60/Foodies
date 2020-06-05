@@ -1,0 +1,38 @@
+<html>
+	<head>
+	</head>
+	<body>
+	   <form action="/fileupload" method="post" name="form1" enctype="multipart/form-data">
+	   <!--<input type="file" name="filetoupload" id="filetoupload"  onchange="handleFileSelect(event)" /><br>-->
+		   <input type="file" name="file" /><br>
+		   <input type="submit" /><br/>
+		   <input type="hidden" name="img" id="img" />
+		   <input type="hidden" name="fileName" id="fileName" />
+		   <textarea id="base64" cols="150" rows="15"></textarea>
+	   </form>
+	   <script>
+		function handleFileSelect(evt) {
+		  var f = evt.target.files[0]; // FileList object
+		  var reader = new FileReader();
+		  // Closure to capture the file information.
+		  reader.onload = (function(theFile) {
+			return function(e) {
+			  var binaryData = e.target.result;
+			  //Converting Binary Data to base 64
+			  var base64String = window.btoa(binaryData);
+			  //showing file converted to base64
+			  ext = f.name.split('.').pop(); //"jpeg";
+			  document.getElementById('base64').value = "data:image/"  + ext + ";base64," + base64String;
+			  document.getElementById('filetoupload').value = "";
+			  
+			  img.value = document.getElementById('base64').value;
+			  fileName = f.name;
+			  alert('File converted to base64 successfuly!\nCheck in Textarea');
+			};
+		  })(f);
+		  // Read in the image file as a data URL.
+		  reader.readAsBinaryString(f);
+		}
+		</script>
+	</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="he">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta property="og:title" content="Social Buttons for Bootstrap" />
+		<meta property="og:description" content="Social Sign-In Buttons made in pure CSS based on Bootstrap and Font Awesome!" />
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content="http://lipis.github.io/bootstrap-social/" />
+		<meta property="og:image" content="http://lipis.github.io/bootstrap-social/assets/img/bootstrap-social.png" />
+
+		<%- include('includes/head'); %>
+		<link href="../stylesheets/main.css" rel="stylesheet" type="text/css" />
+		<link href="../stylesheets/bootstrap-social.css" rel="stylesheet" type="text/css" />
+
+		<style>
+		option { text-align-right; direction: rtl; }
+		input[type='text'] { text-align: right; margin: 0; padding: 0 5px 0 0; color: black; }
+		.form-control.input-sm { margin: 0 ; padding: 0 5px 0 0; text-align: right; }
+		.input-group.has-feedback { margin-bottom: 5px; text-align: right; }		
+		</style>
+	</head>
+	<body>
+		<%- include('includes/inc_script'); %>
+		<div class="container">
+		
+			<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
+			<a type="button" class="btn btn-info btn-lg" data-toggle="modal" href="#myModal">Open Modal</a>
+			
+			<!-- Modal -->
+			<div id="myModal" class="modal fade" role="dialog" tabindex="-1">
+			  <div class="modal-dialog modal-md">
+
+				<!-- Modal content-->
+				<div class="modal-content  panel panel-danger">
+				  <div class="modal-header panel-heading">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h3 class="panel-title text-center"><strong>להיכנס עם פרופיל הפודיז שלך</strong></h3>
+				  </div>
+				  <div class="modal-body">
+						<form ng-submit="submit();" class="form-horizontal" role="form">
+							<label class="control-label" for="username">שם משתמש או אימייל</label>
+							<div class="input-group has-feedback" id="usernameDiv">
+							    <span class="sr-only" aria-hidden="true" id="usernameSign"></span>
+								<input id="username" type="text" class="form-control input-sm" placeholder="הכנס שם משתמש או אימייל" ng-model = "username" title="שם משתמש או אימייל" required>
+								<span class="input-group-addon" title="שם משתמש או אימייל"><i class="glyphicon glyphicon-user"></i></span>
+							</div>
+
+							<label class="control-label" for="password">ססמת כניסה</label>
+							<div class="input-group has-feedback" id="passwordDiv">
+							    <span class="sr-only" aria-hidden="true" id="passwordSign"></span>
+								<input id="password" type="password" class="form-control input-sm" placeholder="הכנס/הכניסי ססמת כניסה" ng-model = "password" title="ססמת כניסה" required>
+								<span class="input-group-addon" title="password"><i class="glyphicon glyphicon-lock"></i></span>
+							</div>
+							
+							<button type="submit" class="btn btn-primary btn-block" style="margin-bottom:-2px; margin-top:10px;">להיכנס לחשבון הפודיז שלך</button>
+							<div class = "input-group btn-block">
+								<div class="pull-right checkbox-inline" style="margin-right: -7px;">
+								זכור אותי&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="remember" type="checkbox" ng-model="remember" >
+								</div>
+								<div class ="pull-left checkbox-inline" style="margin-left: -20px;"><a href="javascript:void(0);">?שכחת את הססמה</a></div>
+							</div>
+						</form>
+				  </div>
+				  <div class="modal-footer">
+					<label class="control-label">או דרך</label>
+					<div class = "text-center social-buttons">
+						<a class="btn btn-social-icon btn-sm btn-facebook" title = "Login with facebook"><i class="fa fa-facebook"></i></a>
+						<a class="btn btn-social-icon btn-sm btn-twitter" title = "Login with twitter"><i class="fa fa-twitter"></i></a>
+						<a class="btn btn-social-icon btn-sm btn-instagram" title = "Login with instagram"><i class="fa fa-instagram"></i></a>
+						<a class="btn btn-social-icon btn-sm btn-linkedin" title = "Login with linkedin"><i class="fa fa-linkedin"></i></a>
+						<a class="btn btn-social-icon btn-sm btn-github" title = "Login with github"><i class="fa fa-github"></i></a>
+						<a class="btn btn-social-icon btn-sm btn-google" title = "Login with google"><i class="fa fa-google"></i></a>
+						<a class="btn btn-social-icon btn-sm btn-microsoft" title = "Login with facebook"><i class="fa fa-windows"></i></a>
+					</div>
+
+					<div style="margin: 7px 0 0 0;">
+						<label class="control-label">
+							אין לך חשבון? 
+							<a href="signup">להירשם כאן בחינם</a>
+						</label>
+					</div> 
+				  
+					<!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+				  </div>
+				</div>
+
+			  </div>
+			</div>			
+		</div>
+		
+		<script>
+			("#myModal .close").click(function () {
+				$("#myModal").modal("hide");
+			});
+  });
+		</script>
+	</body>
+</html>

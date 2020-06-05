@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="he">
+	<head>
+		<meta property="og:title" content="Social Buttons for Bootstrap" />
+		<meta property="og:description" content="Social Sign-In Buttons made in pure CSS based on Bootstrap and Font Awesome!" />
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content="http://lipis.github.io/bootstrap-social/" />
+		<meta property="og:image" content="http://lipis.github.io/bootstrap-social/assets/img/bootstrap-social.png" />
+
+		<%- include('includes/head'); %>
+		
+		<link href="../stylesheets/main.css" rel="stylesheet" type="text/css" />
+		<link href="../stylesheets/checkbox.css" rel="stylesheet" type="text/css" />
+		<style>
+		input[type='text'] { text-align: right; margin: 0; padding: 0 5px 0 0; color: black; }
+		.form-control.input-sm { margin: 0 ; padding: 0 5px 0 0; }
+		.input-group.has-feedback { margin-bottom: 5px; }
+		textarea { margin: 5px 5px 5px 0; padding: 2px 5px 0 5px; text-align: left; }
+		.search-panel { overflow:hidden; }
+		</style>
+	</head>
+	<body ng-app='foodies' ng-controller='users'>
+		<%- include('includes/inc_script'); %>
+		<div class="container">
+			<h1 class="big-title">הפעלת/השבתת משתמש</h1>
+			<form novalidate class="form-horizontal col-md-6 col-md-offset-3">				
+				<ol class="panel list-group navbar-center">
+					<li class = "panel-heading list-group-item active text-center">משתמשים</li>
+					<li class="panel-body list-group-item text-right" title="חיפוש משתמשים">
+						<div class="input-group btn-block">
+							<span class="input-group-btn">
+								<button ng-click="getUsers()" class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
+							</span>
+							<input ng-model="search_data" type="text" class="form-control btn-block" placeholder="חיפוש משתמשים">
+							<div class="input-group-btn">
+								<button type="button" class="btn btn-default dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+									<span id="selection" data-type="2">מושבתים</span> <span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu" role="menu" id="dropdown" aria-labelledby="dropdownMenu1">
+									<li><a data-type="1" class="dropdown-menu-item">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;כולם</a></li>
+									<li><a data-type="2" class="dropdown-menu-item">מושבתים</a></li>
+									<li><a data-type="3" class="dropdown-menu-item">&nbsp;פעילים</a></li>
+									<!--<li class="divider"></li>-->
+								</ul>
+							</div>
+						</div>
+					</li>
+					<li ng-repeat="val in users" class="panel-body list-group-item text-right" title="{{ val.name }}" id="user{{val.user_id}}" >
+						<label class="tgl pull-left">  
+							<input type="checkbox" ng-click="submit(val.user_id)" ng-model="val.activated" />
+							<span data-on="מופעל" data-off="מושבת"></span>
+						</label>
+						<span class="pull-right">({{val.username}}) {{val.name}}</span>
+					</li>				
+				</ol>
+			</form>
+		</div>
+		<script>
+
+			var app = angular.module('foodies', []);
+			app.controller('users', ['$scope', '$http', '$compile', function($scope, $http, $compile) {
+				$scope.users = <%- JSON.stringify(users) %>;				
+				
+				$scope.submit = function (id) {
+					var v = !$scope.users[id].activated;
+					
+					data = { id: id, activated: v, err: "לא נמצאה תוצאת החיפוש" }
+					$http.put('/user_activation', data)
+					.then(function(data) {
+						alert (data.data);
+						
+						if ($("#selection").attr('data-type') != "1") delete $scope.users[id];
+						
+					}).catch(function(data) {
+						alert (data.data);
+						
+					})
+						
+					return v;
+				}
+				
+				$scope.getUsers = function () {
+					if ($scope.search_data.trim() == '') {
+						alert ("הכנס בבקשה ערך בשורת החיפוש");
+						return; 
+					}
+				
+					var v = $("#selection").attr('data-type');
+					data = { user_type: v, search_data: $scope.search_data };					
+					$http.post('/get_users_for_validation', data)
+					.then(function(data) {
+						$scope.users = (data.data);
+						console.log ($scope.users);
+						
+					}).catch(function(data) {
+						alert (data.data);
+						
+					})
+							
+					return v;
+				}
+				
+				
+				
+				$(".dropdown-menu-item").click(function(){
+					var $clicked_item = $(this);			
+					var $target_item = $("#selection");
+					$target_item.text($clicked_item.text());
+					$target_item.attr('data-type', $clicked_item.attr('data-type'));
+					
+					data = { user_type: $clicked_item.attr('data-type'), search_data: null, err: null };					
+					try {
+						$http.post('/get_users_for_validation', data)
+						.then(function(data) {
+							$scope.users = (data.data);
+							//$scope.search_data = "";
+							
+						}).catch(function(data) {
+							alert (data.data);
+						})
+
+					}
+					catch (e) { alert (e); }					
+				});
+
+			}]);
+
+
+			
+		</script>
+	</body>
+</html>
