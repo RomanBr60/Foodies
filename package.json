@@ -33,7 +33,7 @@
     "image-js": "^0.21.9",
     "install": "^0.12.2",
     "jsonwebtoken": "^8.5.1",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "moment": "^2.26.0",
     "mongodb": "^3.5.8",
     "mongoose": "^5.9.17",
