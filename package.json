@@ -32,7 +32,7 @@
     "http-errors": "^1.7.3",
     "image-js": "^0.21.9",
     "install": "^0.12.2",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "lodash": "^4.17.15",
     "moment": "^2.26.0",
     "mongodb": "^3.5.8",
